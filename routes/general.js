@@ -3,7 +3,17 @@ const router = express.Router()
 const db = require('../modules/db')
 
 router.get('/', (req, res) => {
-    res.send('Página Inicial do sitema de gestão de carteira cripto')
+    res.render('index')
+})
+
+router.get('/register', (req, res) => {
+    res.render('general/register')
+}) 
+
+router.post('/register', (req, res) => {
+    console.log(req.body.name)
+
+    res.json({status: 'Sucesso até aqui'})
 })
 
 router.get('/login/:email', (req, res) => {
