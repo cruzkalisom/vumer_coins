@@ -4,6 +4,8 @@ $('#button-register').on('click', (event) => {
     var email = window.document.getElementById('email')
     var password = window.document.getElementById('password')
     var confirm_password = window.document.getElementById('confirm-password')
+    var url = '/register'
+    var formData = new FormData()
 
     name.classList.remove('is-invalid')
     email.classList.remove('is-invalid')
@@ -17,7 +19,7 @@ $('#button-register').on('click', (event) => {
         approve = false
     }
 
-    if(!email.value || !(/^[a-zA-Z0-9@#$%^&*\-_+={}[\]:;<>,.?~\\/()]+$/).test(email.value)){
+    if(!email.value || !(/^[a-zA-Z0-9@#$%^&*\-_+={}[\]:;<>,.?~\\/()]+$/).test(email.value) || !(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(email.value)){
         email.classList.add('is-invalid')
         approve = false
     }
@@ -36,30 +38,27 @@ $('#button-register').on('click', (event) => {
         return 
     }
 
-    var formData = new FormData()
-
     formData.append('name', name.value)
     formData.append('email', email.value)
     formData.append('password', password.value)
 
-    console.log(formData)
-
-    var dataToSend = {
-        name: name.value,
-        email: email.value,
-        password: password.value
-    }
-
-    var url = '/register'
-
     $.ajax({
         url: url,
         method: 'post',
-        dataType: 'json',
-        data: dataToSend,
+        data: formData,
+        contentType: false,
+        processData: false,
         success: (data) => {
             var data = data
-            console.log(data)
+            
+            if(data.registered){
+                email.classList.add('is-invalid')
+                return alerta('Email já existe')
+            }
+
+            if(data.status){
+                location.href = '/'
+            }
         },
         error: (err) => {
             console.log('Erro ao solicitar resposta na rota ' + url)
@@ -67,3 +66,13 @@ $('#button-register').on('click', (event) => {
         }
     })
 })
+
+function alerta(message){
+    var alert = window.document.getElementById('alert')
+
+    alert.innerHTML = `
+        <div class="alert alert-danger" role="alert">
+            <div>${message}</div>
+        </div>
+    `
+}
