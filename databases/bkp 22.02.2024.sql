@@ -22,10 +22,16 @@ USE `vmr_coins`;
 -- Copiando estrutura para tabela vmr_coins.users
 CREATE TABLE IF NOT EXISTS `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Copiando dados para a tabela vmr_coins.users: ~2 rows (aproximadamente)
+INSERT INTO `users` (`user_id`, `name`, `email`, `password`) VALUES
+	(1, 'Kalisom Cruz', 'kalisom.cruz@vumer.com.br', '123456'),
+	(2, 'Messias', 'contato@vumer.com.br', '$2b$10$Q/MY/Pw5aq17JvwobZmv1e/dGjTMqtFkyEWvAomuGGw8poHwTurua');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
