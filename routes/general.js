@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const db = require('../modules/db')
 const upload = require('../modules/uploads')
+const encode = require('../modules/encode')
 
 router.get('/', (req, res) => {
     res.render('index')
@@ -24,9 +25,13 @@ router.post('/register', upload.any(), (req, res) => {
             return res.json({registered: true})
         }
 
+        var hashcode = encode.encodePassowd(req.body.password)
+
+        console.log(hashcode)
+
         var database = [
             req.body.email,
-            req.body.password,
+            hashcode,
             req.body.name
         ]
 
