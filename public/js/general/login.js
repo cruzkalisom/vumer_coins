@@ -50,7 +50,7 @@ $('#button-login').on('click', (event) => {
             }
 
             if(data.status){
-                window.location.href = '/'
+                window.location.href = data.oldpage
             }
         },
         error: (err) => {

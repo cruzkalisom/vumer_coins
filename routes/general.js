@@ -25,7 +25,13 @@ router.post('/login', upload.any(), (req, res) => {
                 return res.json({invalid_password: true})
             }
 
-            res.json({status: true})
+            if(!req.session.teste || req.session.teste == undefined){
+                res.json({status: true, oldpage: '/'})
+            } else {
+                console.log(req.session.teste)
+                res.json({status: true, oldpage: req.session.oldpage})
+            }
+            
         })
     })
 })
@@ -36,6 +42,12 @@ router.get('/login', (req, res) => {
 
 router.get('/', (req, res) => {
     res.render('index')
+})
+
+router.get('/page2', (req, res) => {
+    req.session.oldpage = '/page2'
+    req.session.teste = 'Esse é um teste de informações salvo dentro das sessões'
+    res.send('Página 2 do nosso projeto ENSINANDO A PROGRAMAR')
 })
 
 router.get('/register', (req, res) => {
@@ -68,7 +80,11 @@ router.post('/register', upload.any(), (req, res) => {
                 return console.log(err.message)
             }
 
-            res.json({status: true})
+            if(!req.session.oldpage || req.session.oldpage == undefined){
+                res.json({status: true, oldpage: '/'})
+            } else {
+                res.json({status: true, oldpage: req.session.oldpage})
+            }
         }) 
     })
 })

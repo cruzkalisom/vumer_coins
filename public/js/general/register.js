@@ -57,7 +57,7 @@ $('#button-register').on('click', (event) => {
             }
 
             if(data.status){
-                location.href = '/'
+                location.href = data.oldpage
             }
         },
         error: (err) => {
