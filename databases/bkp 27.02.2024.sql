@@ -19,6 +19,19 @@
 CREATE DATABASE IF NOT EXISTS `vmr_coins` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `vmr_coins`;
 
+-- Copiando estrutura para tabela vmr_coins.sessions
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `token` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `last_login` varchar(255) NOT NULL,
+  `remember` enum('0','1') DEFAULT NULL,
+  PRIMARY KEY (`token`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Copiando dados para a tabela vmr_coins.sessions: ~1 rows (aproximadamente)
+INSERT INTO `sessions` (`token`, `user_id`, `last_login`, `remember`) VALUES
+	(9, 1, '1709081357192', '0');
+
 -- Copiando estrutura para tabela vmr_coins.users
 CREATE TABLE IF NOT EXISTS `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -26,11 +39,11 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- Copiando dados para a tabela vmr_coins.users: ~0 rows (aproximadamente)
 INSERT INTO `users` (`user_id`, `name`, `email`, `password`) VALUES
-	(7, 'Kalisom Cruz', 'kalisom.cruz@vumer.com.br', '$2b$10$K2RNrY0TZNIuJarEOBJ59.sJhp2W.TpG4i9TMn28xgYFt5surDIiO');
+	(9, 'Kalisom Cruz', 'kalisom.cruz@vumer.com.br', '$2b$10$WBUTTRKz6FappkvP5UMYTea4aa07T11xnAMg3147.lxkgwAl8rmFG');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

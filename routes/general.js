@@ -6,6 +6,7 @@ const encode = require('../modules/encode')
 
 router.post('/login', upload.any(), (req, res) => {
     var sql = 'SELECT * FROM users WHERE email = ?'
+    var sql2 = 'INSERT INTO sessions (user_id, last_login, remember) VALUES (?, ?, ?)'
 
     db.query(sql, [req.body.email], (err, result) => {
         if(err){
@@ -16,6 +17,8 @@ router.post('/login', upload.any(), (req, res) => {
             return res.json({notemail: true})
         }
 
+        var user_id = result[0].user_id
+
         encode.bcrypt.compare(req.body.password, result[0].password, (err, success) => {
             if(err){
                 return console.log(err.message)
@@ -25,29 +28,74 @@ router.post('/login', upload.any(), (req, res) => {
                 return res.json({invalid_password: true})
             }
 
-            if(!req.session.teste || req.session.teste == undefined){
-                res.json({status: true, oldpage: '/'})
-            } else {
-                console.log(req.session.teste)
-                res.json({status: true, oldpage: req.session.oldpage})
+            var date = new Date().getTime()
+            var remember = 0
+
+            if(req.body.remember === 'true'){
+                remember = 1
             }
-            
+
+            var database = [
+                user_id,
+                String(date),
+                String(remember)
+            ]
+
+            db.query(sql2, database, (err, result) => {
+                if(err){
+                    return console.log(err.message)
+                }
+
+                req.session.token = result.insertId
+                req.session.user_id = user_id
+
+                if(!req.session.oldpage || req.session.oldpage == undefined){
+                    res.json({status: true, oldpage: '/'})
+                } else {
+                    res.json({status: true, oldpage: req.session.oldpage})
+                }
+            })
         })
     })
 })
 
 router.get('/login', (req, res) => {
-    res.render('general/login')
+    var sql = 'SELECT * FROM sessions WHERE token = ?'
+
+    if(req.session.token || req.session.token != undefined){
+        db.query(sql, [req.session.token], (err, result) => {
+            if(err){
+                return console.log(err.message)
+            }
+
+            if(result[0] && result[0].user_id === req.session.user_id){
+                if(!req.session.oldpage || req.session.oldpage == undefined){
+                    res.redirect('/')
+                } else {
+                    res.redirect(req.session.oldpage)
+                }
+            } else {
+                res.render('general/login')
+            }
+        })
+    } else {
+        res.render('general/login')
+    }
 })
 
 router.get('/', (req, res) => {
+    req.session.oldpage = '/'
     res.render('index')
 })
 
 router.get('/page2', (req, res) => {
     req.session.oldpage = '/page2'
-    req.session.teste = 'Esse é um teste de informações salvo dentro das sessões'
     res.send('Página 2 do nosso projeto ENSINANDO A PROGRAMAR')
+})
+
+router.get('/page3', (req, res) => {
+    req.session.oldpage = '/page3'
+    res.send('Página 3 do Projeto ENSINANDO A PROGRAMAR')
 })
 
 router.get('/register', (req, res) => {
