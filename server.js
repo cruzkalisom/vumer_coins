@@ -2,6 +2,11 @@ const express = require('express')
 const ejs = require('ejs')
 const BodyParser = require('body-parser')
 const session = require('express-session')
+const delsession = require('./modules/delsession')
+
+var ms = 1*60000
+
+setInterval(delsession, ms)
 
 //Armazenando módulo de rots em variáveis
 const general = require('./routes/general')
