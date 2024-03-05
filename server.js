@@ -8,8 +8,9 @@ var ms = 1*60000
 
 setInterval(delsession, ms)
 
-//Armazenando módulo de rots em variáveis
+//Armazenando módulo de rotas em variáveis
 const general = require('./routes/general')
+const admin = require('./routes/admin')
 
 //Criando App
 const app = express()
@@ -31,7 +32,9 @@ app.use(express.static(__dirname + '/public'))
 //Porta de conexão com o servidor
 const port = 50553
 
+//Usando rotas
 app.use('/', general)
+app.use('/admin', admin)
 
 app.listen(port, () => {
     console.log('Servidor online na porta: ' + port)
