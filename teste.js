@@ -1,3 +1,4 @@
+/*Efeito Bubble*/
 /*
 function bubblesort(array){
     const n = array.length
@@ -22,6 +23,7 @@ var array = [60, 52, 3, 5, 9, -4, 32]
 console.log(bubblesort(array))
 */
 
+/*Ordenando listas de strings*/
 /*
 var nomes = ['Messias', 'Ana', 'Lucas', 'Cristian', 'Beatriz', 'Kalisom']
 nomes.sort()
@@ -34,7 +36,31 @@ nomes.sort()
 console.log(nomes)
 */
 
-let obj = { a:"hello world", b: 11, c: true };
+/*Alterando valores de chaves*/
+/*let obj = { a:"hello world", b: 11, c: true };
 obj["b"] = obj["a"]
 console.log(`Valor de a: ${obj["a"]}`)
-console.log(`Valor de b: ${obj["b"]}`)
+console.log(`Valor de b: ${obj["b"]}`)*/
+
+/*Promises*/
+function reqAPI() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const success = false
+    
+            if(success){
+                resolve('API retornou os dados com sucesso')
+            } else {
+                reject('Api não retornou os dados com sucesso')
+            }
+        },2000)
+    })
+}
+
+reqAPI()
+    .then((result) => {
+        console.log(result)
+    })
+    .catch((err) => {
+        console.log(err)
+    })
